@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Program Cost Engine</title>
+    <meta name="description" content="Monte Carlo benefit-cost analysis for public programs: net present value, benefit per dollar, the chance a program pays off, and which assumptions matter." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect x=%272%27 y=%278%27 width=%273%27 height=%276%27 rx=%271%27 fill=%27%232a78d6%27/%3E%3Crect x=%277%27 y=%275%27 width=%273%27 height=%279%27 rx=%271%27 fill=%27%232a78d6%27/%3E%3Crect x=%2712%27 y=%272%27 width=%273%27 height=%2712%27 rx=%271%27 fill=%27%23eb6834%27/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="top"><span class="meta">costengine</span><button id="theme" type="button">Dark</button></div>
+        <h1>What is a program worth?</h1>
+        <p class="muted">Enter what a program costs, what it changes, and what each change is worth. The engine runs thousands of simulated futures with every uncertain number drawn from its range, then reports the expected net value, the benefit per dollar, the chance the program pays off, and which assumptions decide it.</p>
+        <div class="presets" id="presets" role="group" aria-label="Example programs"></div>
+      </header>
+      <div class="layout">
+        <form class="inputs" id="inputs" autocomplete="off"></form>
+        <div class="results" id="results" aria-live="polite"></div>
+      </div>
+      <footer class="muted">
+        <p>Examples use illustrative numbers, not estimates for real programs. Everything runs in your browser; nothing you enter leaves this page.</p>
+      </footer>
+    </main>
+    <div id="tip" role="tooltip" hidden></div>
+    <script type="module" src="/src/ui/main.ts"></script>
+  </body>
+</html>
