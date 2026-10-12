@@ -4,6 +4,8 @@ Monte Carlo benefit-cost analysis for public programs, in the style of the Washi
 Institute for Public Policy's model. It has two parts: a typed TypeScript engine, and a
 calculator that runs entirely in the browser.
 
+**Live calculator:** https://jpark875.github.io/costengine/
+
 You describe what a program costs, which outcomes it changes, and what each change is worth
 to participants, taxpayers and everyone else, giving every uncertain number a range. The
 engine draws every input thousands of times. For each draw it builds the full stream of
