@@ -9,7 +9,6 @@ export function esc(value: unknown): string {
     .replace(/'/g, "&#39;");
 }
 
-/** Dollars, abbreviated: $1.2M, −$350K, $45. */
 export function money(x: number, digits = 1): string {
   if (!Number.isFinite(x)) return "–";
   const sign = x < 0 ? MINUS : "";
@@ -26,7 +25,6 @@ export function money(x: number, digits = 1): string {
   return `${sign}$${a.toFixed(0)}`;
 }
 
-/** Whole dollars with separators. */
 export function dollars(x: number): string {
   if (!Number.isFinite(x)) return "–";
   return `${x < 0 ? MINUS : ""}$${Math.round(Math.abs(x)).toLocaleString("en-US")}`;

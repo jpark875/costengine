@@ -3,7 +3,6 @@ import { type Dist, lowerBound, problems, upperBound } from "./distributions.js"
 export const PERSPECTIVES = ["participants", "taxpayers", "others"] as const;
 export type Perspective = (typeof PERSPECTIVES)[number];
 
-/** A program cost, per participant per year, over ``years`` years from ``startYear``. */
 export interface CostItem {
   id: string;
   label: string;
@@ -13,17 +12,12 @@ export interface CostItem {
   payer: Perspective;
 }
 
-/** Dollars per unit of the outcome per year, to one perspective. */
 export interface Value {
   perspective: Perspective;
   label: string;
   perUnit: Dist;
 }
 
-/**
- * A change in an outcome caused by the program, per participant per year while it lasts,
- * fading by ``decay`` (a fraction per year) after it starts.
- */
 export interface Effect {
   id: string;
   label: string;
@@ -42,9 +36,9 @@ export interface Scenario {
   participants: number;
   horizon: number;
   discountRate: Dist;
-  /** Deadweight cost per dollar of net taxpayer spending (or saving). */
+  /** Per dollar of net taxpayer spending or saving. */
   deadweight: Dist;
-  /** Multiplier on every effect: how much of the evaluated effect survives at scale. */
+  /** Share of the evaluated effect that survives at scale. */
   implementation: Dist;
   costs: CostItem[];
   effects: Effect[];
@@ -52,7 +46,6 @@ export interface Scenario {
 
 export const LIMITS = { horizon: 100, participants: 1e9, items: 50 } as const;
 
-/** Every problem with a scenario, as readable messages. An empty list means it can run. */
 export function validate(s: Scenario): string[] {
   const out: string[] = [];
   const int = (v: number) => Number.isInteger(v);

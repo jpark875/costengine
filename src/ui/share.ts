@@ -1,6 +1,5 @@
 import type { Scenario } from "../engine";
 
-/** Scenario <-> URL-safe base64 JSON, for share links. */
 export function encode(s: Scenario): string {
   const bytes = new TextEncoder().encode(JSON.stringify(s));
   let binary = "";
@@ -20,7 +19,7 @@ export function decode(text: string): Scenario | null {
   }
 }
 
-/** Shape check for untrusted input; ``validate`` checks the values afterwards. */
+/** Shape check only; ``validate`` checks the values. */
 export function looksLikeScenario(x: unknown): x is Scenario {
   if (typeof x !== "object" || x === null) return false;
   const s = x as Record<string, unknown>;

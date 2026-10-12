@@ -18,7 +18,6 @@ function ticks(lo: number, hi: number, target = 5): number[] {
   return out;
 }
 
-/** Round ticks strictly inside [lo, hi], for axes whose domain is set by the data. */
 function innerTicks(lo: number, hi: number, target = 6): number[] {
   const step = niceStep((hi - lo) / target);
   const out: number[] = [];
@@ -30,7 +29,6 @@ function tip(lines: string[]): string {
   return `data-tip="${esc(JSON.stringify(lines))}"`;
 }
 
-/** A bar from ``base`` to ``end`` along y, with the data end rounded and the base square. */
 function vbar(x: number, w: number, base: number, end: number, cls: string): string {
   const h = Math.abs(end - base);
   if (h < 0.5 || w <= 0) return "";
@@ -62,7 +60,6 @@ function yGrid(parts: string[], values: number[], y: Scale, left: number, right:
   }
 }
 
-/** Distribution of net present value across draws; bars below zero are losses. */
 export function histogramChart(bins: Bin[], draws: number): string {
   const left = 64, right = 16, top = 12, plotW = 560, plotH = 220, bottom = 44;
   const width = left + plotW + right;
@@ -104,7 +101,7 @@ export function histogramChart(bins: Bin[], draws: number): string {
   return parts.join("");
 }
 
-/** NPV when one input moves to its 10th or 90th percentile, others held at their medians. */
+/** One input at its 10th or 90th percentile, the rest at their medians. */
 export function tornadoChart(bars: TornadoBar[], base: number, limit = 8): string {
   const shown = bars.slice(0, limit);
   if (!shown.length) return "";
@@ -158,7 +155,6 @@ const FLOW_SERIES = [
 
 export const FLOW_LEGEND = FLOW_SERIES.map(([, label, cls]) => [label, cls] as const);
 
-/** Expected discounted net benefit per year, stacked by who receives it. */
 export function flowsChart(r: Result): string {
   const h = r.byYear.participants.length;
   const left = 64, right = 16, top = 12, plotW = 560, plotH = 220, bottom = 44;
@@ -200,7 +196,6 @@ export function flowsChart(r: Result): string {
       lines.push(`${label}: ${money(v)}`);
       const from = v > 0 ? pos : neg;
       const to = from + v;
-      // Inner segments keep square ends; only the outermost segment's data end is rounded.
       parts.push(segment(cx - barW / 2, barW, y(from), y(to), cls));
       if (v > 0) pos = to;
       else neg = to;
@@ -221,7 +216,6 @@ export function flowsChart(r: Result): string {
   return parts.join("");
 }
 
-/** A stacked segment with a 2px surface gap on its far edge. */
 function segment(x: number, w: number, from: number, to: number, cls: string): string {
   const top = Math.min(from, to);
   const h = Math.abs(to - from);

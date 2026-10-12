@@ -16,7 +16,7 @@ export function sorted(xs: ArrayLike<number>): Float64Array {
   return Float64Array.from(xs).sort();
 }
 
-/** Quantile of already-sorted values, by linear interpolation (type 7). */
+/** Type 7 (linear interpolation), on sorted input. */
 export function quantileSorted(s: ArrayLike<number>, p: number): number {
   if (s.length === 0) return Number.NaN;
   const h = (s.length - 1) * p;
@@ -29,7 +29,6 @@ export function quantile(xs: ArrayLike<number>, p: number): number {
   return quantileSorted(sorted(xs), p);
 }
 
-/** Ranks from 1, ties sharing their average rank. */
 export function ranks(xs: ArrayLike<number>): Float64Array {
   const n = xs.length;
   const order = Array.from({ length: n }, (_, i) => i).sort((a, b) => xs[a] - xs[b]);
@@ -69,7 +68,6 @@ export interface Bin {
   count: number;
 }
 
-/** Equal-width bins on round boundaries covering every value. */
 export function histogram(xs: ArrayLike<number>, target = 30): Bin[] {
   const s = sorted(xs);
   const lo = s[0];

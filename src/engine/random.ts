@@ -1,4 +1,4 @@
-/** Seeded pseudo-random numbers: xoshiro128** seeded through splitmix32. */
+// xoshiro128** seeded through splitmix32.
 export class Rng {
   private s: Uint32Array;
   private spare: number | null = null;
@@ -16,7 +16,6 @@ export class Rng {
     if (this.s.every((v) => v === 0)) this.s[0] = 1;
   }
 
-  /** Uniform on [0, 1) with 32 bits of resolution. */
   next(): number {
     const s = this.s;
     const result = Math.imul(rotl(Math.imul(s[1], 5) >>> 0, 7), 9) >>> 0;
@@ -30,7 +29,6 @@ export class Rng {
     return result / 4294967296;
   }
 
-  /** Standard normal by the Marsaglia polar method. */
   normal(): number {
     if (this.spare !== null) {
       const v = this.spare;
@@ -50,7 +48,7 @@ export class Rng {
     return u * f;
   }
 
-  /** Gamma(shape, 1) by Marsaglia and Tsang (2000). */
+  // Marsaglia and Tsang (2000).
   gamma(shape: number): number {
     if (shape < 1) {
       const u = this.next() || Number.MIN_VALUE;

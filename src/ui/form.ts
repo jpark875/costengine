@@ -58,7 +58,6 @@ function field(label: string, control: HTMLElement): HTMLLabelElement {
   return wrap;
 }
 
-/** Convert a distribution to another kind, keeping its center and spread where possible. */
 export function convert(d: Dist, kind: Dist["kind"]): Dist {
   const center = d.kind === "fixed" ? d.value : "mean" in d ? d.mean : "mode" in d ? d.mode : (d.min + d.max) / 2;
   const spread =
@@ -140,7 +139,7 @@ function removeButton(label: string, onClick: () => void): HTMLButtonElement {
   return button;
 }
 
-/** Build the whole form for ``s``. Value edits mutate ``s`` in place; structural ones rebuild. */
+/** Value edits mutate ``s`` in place; structural edits rebuild the form. */
 export function renderForm(root: HTMLElement, s: Scenario, settings: Settings, onChange: Change): void {
   root.replaceChildren();
   const program = el("fieldset");

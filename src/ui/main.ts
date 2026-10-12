@@ -224,7 +224,7 @@ function wireActions(): void {
   });
 }
 
-// Tooltips: one delegated listener, text set with textContent only.
+// textContent only: chart labels can contain user input.
 const tip = document.getElementById("tip") as HTMLDivElement;
 function place(e: PointerEvent): void {
   const r = tip.getBoundingClientRect();
@@ -257,7 +257,6 @@ document.addEventListener("pointerout", (e) => {
   if ((e.target as Element).closest?.("[data-tip]")) tip.hidden = true;
 });
 
-// Theme toggle, remembered per browser when storage is available.
 const root = document.documentElement;
 const themeButton = document.getElementById("theme") as HTMLButtonElement;
 const isDark = () => {

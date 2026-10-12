@@ -1,6 +1,5 @@
 import type { Rng } from "./random.js";
 
-/** An uncertain input. Every parameter is in the input's own units. */
 export type Dist =
   | { kind: "fixed"; value: number }
   | { kind: "normal"; mean: number; sd: number; min?: number; max?: number }
@@ -27,7 +26,7 @@ export function isUncertain(d: Dist): boolean {
   }
 }
 
-/** Analytic mean (for a truncated normal, of the untruncated one). */
+/** For a truncated normal, the mean of the untruncated one. */
 export function distMean(d: Dist): number {
   switch (d.kind) {
     case "fixed":
@@ -44,7 +43,7 @@ export function distMean(d: Dist): number {
   }
 }
 
-/** Smallest value a draw can take (a normal without a floor counts as six sd below). */
+/** A normal without a floor counts as six sd below its mean. */
 export function lowerBound(d: Dist): number {
   switch (d.kind) {
     case "fixed":
@@ -71,7 +70,6 @@ export function upperBound(d: Dist): number {
   }
 }
 
-/** Problems with a distribution's parameters, as readable messages (empty if valid). */
 export function problems(d: Dist, label: string): string[] {
   const out: string[] = [];
   const values = Object.entries(d).filter(([k]) => k !== "kind");

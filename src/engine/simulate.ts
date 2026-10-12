@@ -4,14 +4,12 @@ import { Rng } from "./random.js";
 import { PERSPECTIVES, type Perspective, type Scenario, validate } from "./scenario.js";
 import { histogram, mean, quantileSorted, sd, sorted, spearman, type Bin } from "./stats.js";
 
-/** One uncertain (or fixed) number in a scenario, addressed by position in a values vector. */
 export interface Input {
   id: string;
   label: string;
   dist: Dist;
 }
 
-/** Where each input sits in the values vector. */
 interface Plan {
   inputs: Input[];
   discountRate: number;
@@ -21,7 +19,6 @@ interface Plan {
   effects: { size: number; decay: number; start: number; years: number; values: { perspective: Perspective; perUnit: number }[] }[];
 }
 
-/** Assign every distribution in the scenario a slot in the values vector. */
 export function plan(s: Scenario): Plan {
   const inputs: Input[] = [];
   const add = (id: string, label: string, dist: Dist) => {
@@ -53,7 +50,6 @@ export function plan(s: Scenario): Plan {
 }
 
 export interface Flows {
-  /** Undiscounted yearly flows per perspective; costs negative. */
   benefits: Record<Perspective, Float64Array>;
   costs: Record<Perspective, Float64Array>;
 }
@@ -63,12 +59,11 @@ export interface Evaluation {
   benefits: number; // PV, including deadweight savings on taxpayer benefits
   costs: number; // PV, including deadweight cost on taxpayer costs
   byPerspective: Record<Perspective | "deadweight", number>;
-  discounted: Float64Array; // net per year, discounted
-  nominal: Float64Array; // net per year, undiscounted
-  byYear: Record<Perspective | "deadweight", Float64Array>; // discounted, net
+  discounted: Float64Array;
+  nominal: Float64Array;
+  byYear: Record<Perspective | "deadweight", Float64Array>;
 }
 
-/** Deterministic benefit-cost result for one vector of input values. */
 export function evaluate(s: Scenario, p: Plan, values: ArrayLike<number>): Evaluation {
   const h = s.horizon;
   const rate = values[p.discountRate];
@@ -198,10 +193,7 @@ function summarize(xs: Float64Array): Summary {
   };
 }
 
-/**
- * Monte Carlo benefit-cost analysis. Each draw samples every input once, so a value or
- * effect is the same in every year of that draw, and evaluates the whole cash-flow stream.
- */
+// Each draw samples every input once, so an input holds the same value in every year.
 export function simulate(s: Scenario, draws = 10_000, seed = 1): Result {
   const errors = validate(s);
   if (!Number.isInteger(draws) || draws < 100 || draws > 1_000_000) errors.push("draws must be a whole number from 100 to 1,000,000");
@@ -239,7 +231,6 @@ export function simulate(s: Scenario, draws = 10_000, seed = 1): Result {
     }
   }
 
-  // Expected discounted net flow per year (for payback); IRR uses the undiscounted stream.
   const net = new Float64Array(h);
   for (const key of [...PERSPECTIVES, "deadweight"] as const) for (let t = 0; t < h; t++) net[t] += byYear[key][t];
   const medianValues = Float64Array.from(inputDraws, (xs) => quantileSorted(sorted(xs), 0.5));

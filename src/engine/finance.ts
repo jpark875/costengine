@@ -1,4 +1,3 @@
-/** Discount factor for year t (year 0 is today and is not discounted). */
 export function discount(rate: number, t: number): number {
   return 1 / (1 + rate) ** t;
 }
@@ -9,10 +8,7 @@ export function presentValue(flows: ArrayLike<number>, rate: number): number {
   return total;
 }
 
-/**
- * Internal rate of return of a cash-flow stream, or NaN when there is none: the stream
- * must change sign, and the root is searched between -99% and 1,000% a year.
- */
+/** NaN unless the stream changes sign; the root is searched between -99% and 1,000%. */
 export function irr(flows: ArrayLike<number>): number {
   let pos = false;
   let neg = false;
@@ -40,7 +36,6 @@ export function irr(flows: ArrayLike<number>): number {
   return (lo + hi) / 2;
 }
 
-/** First year in which cumulative discounted net benefits turn non-negative, or null. */
 export function payback(netDiscounted: ArrayLike<number>): number | null {
   let total = 0;
   for (let t = 0; t < netDiscounted.length; t++) {

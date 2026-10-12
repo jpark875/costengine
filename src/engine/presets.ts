@@ -1,9 +1,6 @@
 import type { Scenario } from "./scenario.js";
 
-/**
- * Illustrative scenarios. The numbers are plausible orders of magnitude chosen to show how
- * the engine behaves, not estimates for any real program; replace them with your own.
- */
+// Illustrative numbers, not estimates for any real program.
 const ASSUMPTIONS = {
   discountRate: { kind: "triangular", min: 0.02, mode: 0.03, max: 0.05 },
   deadweight: { kind: "triangular", min: 0, mode: 0.5, max: 1 },
